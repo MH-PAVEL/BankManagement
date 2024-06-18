@@ -1,41 +1,80 @@
+
 import javax.swing.*;
 import java.awt.*;
 
 public class CreateAccountPanel extends JPanel {
     private JTextField ownerNameField, nidNumberField, dobField;
     private JPasswordField passwordField;
+    private BankGUI bankGUI;
 
     public CreateAccountPanel(BankGUI bankGUI) {
-        setLayout(new GridLayout(5, 2, 10, 10));
+        this.bankGUI = bankGUI;
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        Font labelFont = new Font("Serif", Font.PLAIN, 18);
+        Font fieldFont = new Font("Serif", Font.PLAIN, 16);
 
         JLabel ownerNameLabel = new JLabel("Owner Name:");
+        ownerNameLabel.setFont(labelFont);
         ownerNameField = new JTextField();
-        add(ownerNameLabel);
-        add(ownerNameField);
+        ownerNameField.setFont(fieldFont);
+        ownerNameField.setPreferredSize(new Dimension(200, 30));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(ownerNameLabel, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(ownerNameField, gbc);
 
         JLabel nidNumberLabel = new JLabel("NID Number:");
+        nidNumberLabel.setFont(labelFont);
         nidNumberField = new JTextField();
-        add(nidNumberLabel);
-        add(nidNumberField);
+        nidNumberField.setFont(fieldFont);
+        nidNumberField.setPreferredSize(new Dimension(200, 30));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(nidNumberLabel, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(nidNumberField, gbc);
 
         JLabel dobLabel = new JLabel("Date of Birth:");
+        dobLabel.setFont(labelFont);
         dobField = new JTextField();
-        add(dobLabel);
-        add(dobField);
+        dobField.setFont(fieldFont);
+        dobField.setPreferredSize(new Dimension(200, 30));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(dobLabel, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(dobField, gbc);
 
         JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(labelFont);
         passwordField = new JPasswordField();
-        add(passwordLabel);
-        add(passwordField);
+        passwordField.setFont(fieldFont);
+        passwordField.setPreferredSize(new Dimension(200, 30));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(passwordLabel, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(passwordField, gbc);
 
         JButton submitButton = new JButton("Submit");
-        JButton cancelButton = new JButton("Cancel");
-
-        cancelButton.addActionListener(e -> {
-            clearFields();
-            bankGUI.showHomePanel();
-        });
-
+        submitButton.setFont(labelFont);
         submitButton.addActionListener(e -> {
             String ownerName = ownerNameField.getText();
             String nidNumber = nidNumberField.getText();
@@ -43,13 +82,25 @@ public class CreateAccountPanel extends JPanel {
             String password = new String(passwordField.getPassword());
 
             String accountNumber = bankGUI.getBank().createAccount(ownerName, nidNumber, dob, 0, password);
-
             bankGUI.showAccountCreatedPanel(accountNumber, ownerName, nidNumber, dob);
             showInitialDepositDialog(bankGUI, accountNumber);
         });
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(submitButton, gbc);
 
-        add(submitButton);
-        add(cancelButton);
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setFont(labelFont);
+        cancelButton.addActionListener(e -> {
+            clearFields();
+            bankGUI.showHomePanel();
+        });
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(cancelButton, gbc);
+
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
